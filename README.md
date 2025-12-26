@@ -118,7 +118,8 @@ Python 3.x sürümü önerilmektedir.
 Gerekli kütüphaneler aşağıdaki komut ile kurulabilir:
 
 ```bash
-pip install torch pandas numpy scikit-learn gradio
+pip install torch pandas numpy scikit-learn gradio  ``` 
+
 
 
 ### 6.2 Modeli Eğitme
