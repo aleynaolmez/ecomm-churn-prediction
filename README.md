@@ -142,6 +142,8 @@ Terminal çıktısında aşağıdaki adrese benzer bir bağlantı oluşur:
 
 http://127.0.0.1:7860
 
+---
+
 
 ## 7. Proje Dosya Yapısı
 
@@ -153,6 +155,8 @@ ecomm-churn-prediction/
 ├── README.md       # Proje dokümantasyonu
 ├── .gitignore
 └── E Commerce Customer Insights and Churn Dataset (1).csv
+
+---
 
 
 ## 8. Sonuç
