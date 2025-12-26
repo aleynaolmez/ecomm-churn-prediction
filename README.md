@@ -143,7 +143,7 @@ Terminal çıktısında aşağıdaki adrese benzer bir bağlantı oluşur:
 http://127.0.0.1:7860
 
 
-7. Proje Dosya Yapısı
+## 7. Proje Dosya Yapısı
 
 ecomm-churn-prediction/
 │
@@ -155,7 +155,7 @@ ecomm-churn-prediction/
 └── E Commerce Customer Insights and Churn Dataset (1).csv
 
 
-8. Sonuç
+## 8. Sonuç
 
 Bu projede, e-ticaret müşteri verileri kullanılarak churn tahmini
 problemi derin öğrenme yaklaşımı ile ele alınmıştır.
