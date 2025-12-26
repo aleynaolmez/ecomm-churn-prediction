@@ -137,7 +137,7 @@ def main():
 
     model = ChurnMLP(input_dim=X_train_t.shape[1])
 
-    # ✅ imbalance fix
+    #  imbalance fix
     pos_weight = compute_pos_weight(y_train_t).to(torch.float32)
     criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
@@ -155,7 +155,7 @@ def main():
     for epoch in range(epochs):
         total = 0.0
         for xb, yb in loader:
-            # ✅ SHAPE FIX (en kritik kısım)
+            #  SHAPE FIX (en kritik kısım)
             logits = model(xb).view(-1, 1)   # (B,1) garanti
             yb = yb.view(-1, 1)              # (B,1) garanti
 
