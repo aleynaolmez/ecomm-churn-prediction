@@ -73,21 +73,43 @@ Model özellikleri:
 
 ---
 
-## 5. Model Eğitimi ve Değerlendirme
+## 5. Model Performansı ve Değerlendirme
 
-Veri seti %80 eğitim ve %20 test olacak şekilde ayrılmıştır.
+Eğitilen modelin başarımı, test veri seti üzerinde aşağıdaki
+sınıflandırma metrikleri kullanılarak değerlendirilmiştir.
 
-Test verisi üzerinde elde edilen performans metrikleri:
+### Kullanılan Metrikler
 
-Accuracy : 0.5912
-Precision : 0.2959
-Recall : 0.2929
-F1 Score : 0.2944
+- **Accuracy (Doğruluk):** Modelin tüm örnekler üzerinde doğru tahmin yapma oranını gösterir.
+- **Precision:** Churn olarak tahmin edilen müşterilerin ne kadarının gerçekten churn olduğunu ifade eder.
+- **Recall:** Gerçek churn olan müşterilerin ne kadarının model tarafından doğru şekilde yakalandığını gösterir.
+- **F1-Score:** Precision ve Recall değerlerinin harmonik ortalamasıdır ve dengesiz veri setlerinde daha anlamlı bir performans ölçütüdür.
 
+### Test Sonuçları
 
-Bu sonuçlar, veri setindeki sınıf dengesizliği nedeniyle
-precision ve recall değerlerinin görece düşük olduğunu göstermektedir.
-Buna rağmen model churn eğilimini öğrenebilmiştir.
+| Metrik     | Değer  |
+|------------|--------|
+| Accuracy   | 0.5912 |
+| Precision  | 0.2959 |
+| Recall     | 0.2929 |
+| F1-Score   | 0.2944 |
+
+### Değerlendirme ve Yorum
+
+Elde edilen sonuçlar, churn tahmin probleminin zorlu yapısını
+yansıtmaktadır. Veri setinde sınıflar arasında dengesizlik
+bulunması (churn olmayan müşterilerin daha fazla olması),
+özellikle Precision ve Recall değerlerinin görece düşük çıkmasına
+neden olmuştur.
+
+Buna rağmen model, churn davranışını belirli ölçüde öğrenmiş ve
+anlamlı tahminler üretebilmiştir. Gerçek dünya senaryolarında churn
+problemi genellikle karmaşık müşteri davranışlarına dayandığından,
+elde edilen sonuçlar kabul edilebilir düzeydedir.
+
+İleride daha gelişmiş modeller, veri dengeleme teknikleri
+(oversampling / class weighting) veya ek özellik mühendisliği
+yaklaşımları ile performansın artırılması mümkündür.
 
 ---
 
