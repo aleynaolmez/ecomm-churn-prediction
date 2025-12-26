@@ -121,7 +121,7 @@ Gerekli kütüphaneler aşağıdaki komut ile kurulabilir:
 pip install torch pandas numpy scikit-learn gradio
 
 
-6.2 Modeli Eğitme
+### 6.2 Modeli Eğitme
 
 Aşağıdaki komut çalıştırıldığında model eğitilir ve
 churn_artifact.pt dosyası oluşturulur:
@@ -131,7 +131,7 @@ python train.py
 Eğitim tamamlandığında modelin performans metrikleri
 terminalde görüntülenir
 
-6.3 Gradio Arayüzünü Başlatma
+### 6.3 Gradio Arayüzünü Başlatma
 
 Model eğitildikten sonra tahmin yapmak için
 Gradio tabanlı kullanıcı arayüzü başlatılır:
