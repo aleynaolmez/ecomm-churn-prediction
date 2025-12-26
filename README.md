@@ -2,88 +2,85 @@
 
 Bu proje, bir e-ticaret platformunda yer alan müşterilerin aboneliklerini
 iptal etme (churn) olasılığını tahmin etmek amacıyla geliştirilmiştir.
-Proje kapsamında tabular (tablo) veri üzerinde çalışan derin öğrenme
-tabanlı bir model oluşturulmuştur.
+Derin öğrenme tabanlı bir sınıflandırma modeli kullanılarak müşterilerin
+davranışsal ve demografik özelliklerinden yararlanılmıştır.
+
+Proje kapsamında PyTorch kullanılarak Çok Katmanlı Algılayıcı (MLP – Multi Layer Perceptron)
+tabanlı bir model eğitilmiş, ardından Gradio ile kullanıcı dostu bir web arayüzü
+oluşturulmuştur.
 
 ---
 
 ## 1. Proje Konusu ve Seçilme Gerekçesi
 
-Churn tahmini, e-ticaret platformları için müşteri kaybını önceden
-öngörmek ve müşteri elde tutma (customer retention) stratejileri
-geliştirmek açısından kritik bir problemdir.
+Churn tahmini, işletmeler için müşteri kaybını önceden tespit ederek
+müşteri elde tutma (customer retention) stratejileri geliştirilmesi açısından
+kritik öneme sahiptir.
 
-Bu çalışmada kullanılan veri seti tablo (tabular) yapıdadır.
-Bu nedenle görüntü verileri için kullanılan CNN mimarileri yerine,
-tabular veriler üzerinde daha etkili sonuçlar veren
-Çok Katmanlı Algılayıcı (MLP – Multi Layer Perceptron) tabanlı
-bir derin öğrenme modeli tercih edilmiştir.
+Bu projede ele alınan problem, gerçek hayatta sıkça karşılaşılan bir iş
+problemidir. Veri seti tablo (tabular) yapıda olduğu için görüntü verilerine
+özgü CNN tabanlı modeller yerine, bu tür verilerde etkili sonuçlar veren
+MLP tabanlı derin öğrenme yaklaşımı tercih edilmiştir.
 
 ---
 
 ## 2. Veri Seti
 
-Bu projede **E Commerce Customer Insights and Churn Dataset**
-adlı veri seti kullanılmıştır.
+Bu projede **E Commerce Customer Insights and Churn Dataset** adlı veri seti
+kullanılmıştır.
 
-Veri seti CSV formatındadır ve aşağıdaki bilgileri içermektedir:
+Veri seti aşağıdaki bilgileri içermektedir:
 
-- Demografik bilgiler (yaş, cinsiyet, ülke)
-- Satın alma davranışları (alışveriş sıklığı, sipariş bilgileri)
-- Ürün bilgileri (kategori, ürün adı)
-- Abonelik durumu
+- Yaş (age)
+- Ülke (country)
+- Cinsiyet (gender)
+- Satın alma sıklığı (purchase_frequency)
+- İptal sayısı (cancellations_count)
+- Ürün fiyatı ve miktarı
+- Tercih edilen kategori
+- Abonelik durumu (active / cancelled)
 
-### Churn Etiketi
-
-- `subscription_status = cancelled` → churn = 1  
-- `subscription_status = active` → churn = 0  
-
-Veri seti, projenin çalıştırılabilmesi için GitHub reposu içerisinde
-yer almaktadır.
-
----
-
-## 3. Veri Ön İşleme ve Özellik Mühendisliği
-
-Veri seti üzerinde aşağıdaki işlemler uygulanmıştır:
-
-- Tarih alanları `datetime` formatına dönüştürülmüştür
-- Eksik veriler doldurulmuştur
-- Yeni özellikler türetilmiştir:
-  - `total_order_value = unit_price × quantity`
-  - `days_since_signup`
-  - `days_since_last_purchase`
-- Sayısal veriler standartlaştırılmıştır
-- Kategorik veriler one-hot encoding ile dönüştürülmüştür
+Hedef değişken (label), müşterinin aboneliğini iptal edip etmediğini
+gösteren **churn** bilgisidir.
 
 ---
 
-## 4. Kullanılan Model ve Yöntem
+## 3. Kullanılan Yöntem ve Model Mimarisi
 
-Model, PyTorch kullanılarak geliştirilmiş bir
-**MLP (Multi Layer Perceptron)** mimarisidir.
+Projede PyTorch kullanılarak Çok Katmanlı Algılayıcı (MLP) tabanlı bir
+derin öğrenme modeli geliştirilmiştir.
 
-Model özellikleri:
+Modelin genel özellikleri:
 
-- Girdi katmanı: Sayısal + kategorik özellikler
-- Gizli katmanlar: ReLU aktivasyon fonksiyonu
-- Çıkış katmanı: Binary sınıflandırma (churn / not churn)
-- Kayıp fonksiyonu: `BCEWithLogitsLoss`
-- Optimizasyon algoritması: Adam
+- Girdi: Sayısal ve kategorik özelliklerin birleştirilmiş hali
+- Kategorik veriler: One-Hot Encoding
+- Sayısal veriler: Standartlaştırma (Standardization)
+- Kayıp Fonksiyonu: Binary Cross Entropy Loss
+- Optimizasyon Algoritması: Adam Optimizer
+
+Bu yapı, ikili sınıflandırma (churn / not churn) problemleri için
+uygun ve yaygın olarak kullanılan bir yaklaşımdır.
+
+---
+
+## 4. Model Eğitimi ve Değerlendirme Süreci
+
+Model, veri setinin %80’i eğitim, %20’si test olacak şekilde bölünerek
+eğitilmiştir.
+
+Eğitim tamamlandıktan sonra model, test veri seti üzerinde
+değerlendirilmiştir.
 
 ---
 
 ## 5. Model Performansı ve Değerlendirme
 
-Eğitilen modelin başarımı, test veri seti üzerinde aşağıdaki
-sınıflandırma metrikleri kullanılarak değerlendirilmiştir.
+Modelin başarımı aşağıdaki sınıflandırma metrikleri kullanılarak ölçülmüştür:
 
-### Kullanılan Metrikler
-
-- **Accuracy (Doğruluk):** Modelin tüm örnekler üzerinde doğru tahmin yapma oranını gösterir.
-- **Precision:** Churn olarak tahmin edilen müşterilerin ne kadarının gerçekten churn olduğunu ifade eder.
-- **Recall:** Gerçek churn olan müşterilerin ne kadarının model tarafından doğru şekilde yakalandığını gösterir.
-- **F1-Score:** Precision ve Recall değerlerinin harmonik ortalamasıdır ve dengesiz veri setlerinde daha anlamlı bir performans ölçütüdür.
+- **Accuracy:** Genel doğruluk oranı
+- **Precision:** Churn olarak tahmin edilen müşterilerin gerçekten churn olma oranı
+- **Recall:** Gerçek churn olan müşterilerin ne kadarının yakalandığı
+- **F1-Score:** Precision ve Recall’un dengeli ölçümü
 
 ### Test Sonuçları
 
@@ -97,31 +94,32 @@ sınıflandırma metrikleri kullanılarak değerlendirilmiştir.
 ### Değerlendirme ve Yorum
 
 Elde edilen sonuçlar, churn tahmin probleminin zorlu yapısını
-yansıtmaktadır. Veri setinde sınıflar arasında dengesizlik
-bulunması (churn olmayan müşterilerin daha fazla olması),
-özellikle Precision ve Recall değerlerinin görece düşük çıkmasına
-neden olmuştur.
+yansıtmaktadır. Veri setinde sınıflar arasında dengesizlik bulunması
+(churn olmayan müşterilerin daha fazla olması), özellikle Precision ve
+Recall değerlerinin görece düşük çıkmasına neden olmuştur.
 
 Buna rağmen model, churn davranışını belirli ölçüde öğrenmiş ve
 anlamlı tahminler üretebilmiştir. Gerçek dünya senaryolarında churn
-problemi genellikle karmaşık müşteri davranışlarına dayandığından,
-elde edilen sonuçlar kabul edilebilir düzeydedir.
+problemi karmaşık müşteri davranışlarına dayandığından, elde edilen
+sonuçlar kabul edilebilir düzeydedir.
 
-İleride daha gelişmiş modeller, veri dengeleme teknikleri
-(oversampling / class weighting) veya ek özellik mühendisliği
-yaklaşımları ile performansın artırılması mümkündür.
+Gelecekte veri dengeleme teknikleri (oversampling / class weighting),
+ek özellik mühendisliği veya farklı model mimarileri ile performansın
+artırılması mümkündür.
 
 ---
 
 ## 6. Kurulum ve Çalıştırma
 
-6.1 Ortam Kurulumu
+### 6.1 Ortam Kurulumu
 
 Python 3.x sürümü önerilmektedir.
+
 Gerekli kütüphaneler aşağıdaki komut ile kurulabilir:
 
 ```bash
 pip install torch pandas numpy scikit-learn gradio
+
 
 6.2 Modeli Eğitme
 
