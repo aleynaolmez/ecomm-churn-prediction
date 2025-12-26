@@ -117,12 +117,11 @@ Python 3.x sürümü önerilmektedir.
 
 Gerekli kütüphaneler aşağıdaki komut ile kurulabilir:
 
-```bash
-pip install torch pandas numpy scikit-learn gradio  ``` 
+bash
+pip install torch pandas numpy scikit-learn gradio 
 
 
-
-### 6.2 Modeli Eğitme
+###  6.2 Modeli Eğitme
 
 Aşağıdaki komut çalıştırıldığında model eğitilir ve
 churn_artifact.pt dosyası oluşturulur:
